@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: text2sql-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: classicmodels
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./sql/seed.sql:/docker-entrypoint-initdb.d/01-seed.sql:ro
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d classicmodels"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: text2sql-app
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/classicmodels
+    ports:
+      - "8501:8501"
+      - "8000:8000"
+    volumes:
+      - ./logs:/code/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+      streamlit run app/streamlit_app.py --server.port=8501 --server.address=0.0.0.0"
+
+volumes:
+  postgres_data:

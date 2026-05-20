@@ -1,0 +1,17 @@
+2026-05-20 15:31:12 | INFO     | app | Logging initialized | log_file=/code/app/logs/app.log | level=INFO
+2026-05-20 15:31:16 | INFO     | app | API starting | host=0.0.0.0 port=8000
+2026-05-20 15:31:16 | INFO     | app | Creating database engine
+2026-05-20 15:31:16 | INFO     | app | Database connection check succeeded
+2026-05-20 15:31:27 | INFO     | app | Logging initialized | log_file=/code/app/logs/app.log | level=INFO
+2026-05-20 15:31:31 | INFO     | app | Creating database engine
+2026-05-20 15:31:31 | INFO     | app | Database connection check succeeded
+2026-05-20 15:31:58 | INFO     | app | Logging initialized | log_file=/code/app/logs/app.log | level=INFO
+2026-05-20 15:32:00 | INFO     | app | Logging initialized | log_file=/code/app/logs/app.log | level=INFO
+2026-05-20 15:32:03 | INFO     | app | API starting | host=0.0.0.0 port=8000
+2026-05-20 15:32:03 | INFO     | app | Creating database engine
+2026-05-20 15:32:03 | INFO     | app | Database connection check succeeded
+2026-05-20 15:32:05 | INFO     | app | Creating database engine
+2026-05-20 15:32:05 | INFO     | app | Database connection check succeeded
+2026-05-20 15:33:49 | INFO     | app | Database connection check succeeded
+2026-05-20 15:33:53 | INFO     | app | Database connection check succeeded
+2026-05-20 15:33:53 | INFO     | app | Database connection check succeeded

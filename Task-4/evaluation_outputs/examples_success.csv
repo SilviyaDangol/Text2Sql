@@ -1,0 +1,82 @@
+question,correct_sql,generated_sql,execution_accuracy,schema_linking_accuracy,executed_successfully,retry_needed,retry_count,row_count,workflow_nodes,final_answer_preview
+Get all customers,SELECT * FROM customers,"SELECT ""customerNumber"", ""customerName"", ""contactLastName"", ""contactFirstName"", ""phone"", ""addressLine1"", ""addressLine2"", ""city"", ""state"", ""postalCode"", ""country"", ""salesRepEmployeeNumber"", ""creditLimit"" FROM customers LIMIT 100",1.0,0.5,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+List all employees,SELECT * FROM employees,"SELECT ""employeeNumber"", ""lastName"", ""firstName"", ""extension"", ""email"", ""officeCode"", ""reportsTo"", ""jobTitle"" 
+FROM employees 
+ORDER BY ""employeeNumber"" 
+LIMIT 100",1.0,0.5,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Get all offices,SELECT * FROM offices,"SELECT ""officeCode"", ""city"", ""phone"", ""addressLine1"", ""addressLine2"", ""state"", ""country"", ""postalCode"", ""territory"" FROM offices LIMIT 100",1.0,0.5,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Show all product lines,SELECT * FROM productlines,"SELECT ""productLine"", ""textDescription"", ""htmlDescription"", ""image"" FROM productlines LIMIT 100",1.0,0.5,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Get customer names and cities,"SELECT ""customerName"", ""city"" FROM customers","SELECT ""customerName"", ""city"" 
+FROM customers 
+ORDER BY ""customerName"" 
+LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+List employee first and last names,"SELECT ""firstName"", ""lastName"" FROM employees","SELECT ""firstName"", ""lastName"" FROM employees LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Get all order dates,"SELECT ""orderDate"" FROM orders","SELECT ""orderDate"" FROM orders LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Show product vendor list,"SELECT DISTINCT ""productVendor"" FROM products","SELECT DISTINCT ""productVendor"" FROM products LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Get all product codes,"SELECT ""productCode"" FROM products","SELECT ""productCode"" FROM products LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+List all countries from offices,"SELECT DISTINCT ""country"" FROM offices","SELECT DISTINCT ""country"" FROM offices LIMIT 100",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Show all order statuses,"SELECT DISTINCT ""status"" FROM orders","SELECT DISTINCT orders.""status"" FROM orders ORDER BY orders.""status"" LIMIT 100",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Get all payment amounts,"SELECT ""amount"" FROM payments","SELECT ""amount"" FROM payments LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+List all job titles,"SELECT DISTINCT ""jobTitle"" FROM employees","SELECT DISTINCT ""jobTitle"" FROM employees LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Get customer phone numbers,"SELECT ""phone"" FROM customers","SELECT ""phone"" FROM customers LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+List order numbers,"SELECT ""orderNumber"" FROM orders","SELECT orders.""orderNumber"" 
+FROM orders 
+LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Get payments with customer country,"SELECT p.*, c.""country"" FROM payments p JOIN customers c ON p.""customerNumber"" = c.""customerNumber""","SELECT 
+    payments.""customerNumber"", 
+    payments.""checkNumber"", 
+    payments.""paymentDate"", 
+    payments.""amount"", 
+    customers.""country"" 
+FROM 
+    payments 
+JOIN 
+    customers ON payments.""customerNumber"" = customers.""customerNumber"" 
+LIMIT 100",1.0,0.7857,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Count customers per country,"SELECT ""country"", COUNT(*) AS ""customerCount"" FROM customers GROUP BY ""country""","SELECT ""country"", COUNT(*) AS ""customer_count""
+FROM customers
+GROUP BY ""country""
+LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Total payments per customer,"SELECT ""customerNumber"", SUM(""amount"") AS ""totalPayments"" FROM payments GROUP BY ""customerNumber""","SELECT customers.""customerNumber"", SUM(payments.""amount"") AS ""totalPayments""
+FROM customers
+LEFT JOIN payments ON customers.""customerNumber"" = payments.""customerNumber""
+GROUP BY customers.""customerNumber""
+LIMIT 100",1.0,0.8333,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Number of orders per status,"SELECT ""status"", COUNT(*) AS ""orderCount"" FROM orders GROUP BY ""status""","SELECT ""status"", COUNT(*) AS ""count""
+FROM orders
+GROUP BY ""status""
+LIMIT 100",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Products per product line,"SELECT ""productLine"", COUNT(*) AS ""productCount"" FROM products GROUP BY ""productLine""","SELECT productlines.""productLine"", COUNT(products.""productCode"") AS ""productCount""
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+GROUP BY productlines.""productLine""
+LIMIT 100",1.0,0.6667,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Total stock per product vendor,"SELECT ""productVendor"", SUM(""quantityInStock"") AS ""totalStock"" FROM products GROUP BY ""productVendor""","SELECT ""productVendor"", SUM(""quantityInStock"") AS ""totalStock""
+FROM products
+GROUP BY ""productVendor""
+LIMIT 100",1.0,1.0,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Average buy price per product line,"SELECT ""productLine"", AVG(""buyPrice"") AS ""avgBuyPrice"" FROM products GROUP BY ""productLine""","SELECT productlines.""productLine"", AVG(products.""buyPrice"") AS averageBuyPrice
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+GROUP BY productlines.""productLine""
+LIMIT 100",1.0,0.8333,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Max MSRP per product line,"SELECT ""productLine"", MAX(""MSRP"") AS ""maxMSRP"" FROM products GROUP BY ""productLine""","SELECT productlines.""productLine"", MAX(products.""MSRP"") AS maxMSRP
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+GROUP BY productlines.""productLine""
+LIMIT 100",1.0,0.8333,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Min buy price per vendor,"SELECT ""productVendor"", MIN(""buyPrice"") AS ""minBuyPrice"" FROM products GROUP BY ""productVendor""","SELECT products.""productVendor"", MIN(products.""buyPrice"") AS minBuyPrice
+FROM products
+JOIN orderdetails ON orderdetails.""productCode"" = products.""productCode""
+GROUP BY products.""productVendor""
+LIMIT 100",1.0,0.7333,Yes,No,0,2,planner -> sql_generator -> validator -> executor -> summarizer,
+Total number of customers,"SELECT COUNT(*) AS ""totalCustomers"" FROM customers","SELECT COUNT(*) AS ""totalCustomers"" FROM customers",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Total number of products,"SELECT COUNT(*) AS ""totalProducts"" FROM products","SELECT COUNT(*) AS ""totalProducts"" FROM products",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Total revenue from payments,"SELECT SUM(""amount"") AS ""totalRevenue"" FROM payments","SELECT SUM(""amount"") AS ""totalRevenue"" FROM payments LIMIT 100",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Average product price,"SELECT AVG(""buyPrice"") AS ""avgProductPrice"" FROM products","SELECT AVG(""buyPrice"") AS ""AverageBuyPrice"" FROM products",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Max payment amount,"SELECT MAX(""amount"") AS ""maxPayment"" FROM payments","SELECT MAX(""amount"") AS ""MaxPaymentAmount"" FROM payments",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Min payment amount,"SELECT MIN(""amount"") AS ""minPayment"" FROM payments","SELECT MIN(""amount"") AS ""MinPaymentAmount"" FROM payments",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Count total orders,"SELECT COUNT(*) AS ""totalOrders"" FROM orders","SELECT COUNT(*) AS ""totalOrders"" FROM orders",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Total quantity in stock,"SELECT SUM(""quantityInStock"") AS ""totalQuantityInStock"" FROM products","SELECT SUM(""quantityInStock"") AS ""totalQuantityInStock"" FROM products LIMIT 100",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Average MSRP,"SELECT AVG(""MSRP"") AS ""avgMSRP"" FROM products","SELECT AVG(""MSRP"") AS average_msrp FROM products LIMIT 100",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,
+Number of employees,"SELECT COUNT(*) AS ""totalEmployees"" FROM employees","SELECT COUNT(*) AS ""totalEmployees"" FROM employees",1.0,1.0,Yes,No,0,1,planner -> sql_generator -> validator -> executor -> summarizer,

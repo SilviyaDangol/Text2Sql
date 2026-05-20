@@ -1,0 +1,1114 @@
+{
+  "generated_at": "2026-05-20T16:33:59.265326+00:00",
+  "summary": {
+    "total_questions": 50,
+    "pipeline_retry_cases": 0,
+    "workflow_failed_cases": 0,
+    "execution_accuracy_mismatches": 16
+  },
+  "retry_handling_behavior": {
+    "description": "LangGraph routes validator/executor failures back to sql_generator until MAX_SQL_RETRIES (default 3). Validation retries skip DB execution; execution retries pass PostgreSQL error text as feedback to the generator.",
+    "validator_retry_trigger": "Invalid syntax, non-SELECT, forbidden keywords",
+    "executor_retry_trigger": "PostgreSQL execution error",
+    "terminal_failure": "Summarizer returns error message after max retries",
+    "observed_in_full_run": "No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt."
+  },
+  "example_retry_cases": [],
+  "example_execution_mismatches": [
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "List all products",
+      "correct_sql": "SELECT * FROM products",
+      "generated_sql": "SELECT \"productCode\", \"productName\", \"productLine\", \"quantityInStock\", \"buyPrice\", \"MSRP\" \nFROM products \nORDER BY \"productName\" \nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.5,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT \"productCode\", \"productName\", \"productLine\", \"quantityInStock\", \"buyPrice\", \"MSRP\" \nFROM products \nORDER BY \"productName\" \nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "productCode": "S10_1949",
+          "productName": "1952 Alpine Renault 1300",
+          "productLine": "Classic Cars",
+          "quantityInStock": 7305,
+          "buyPrice": 98.58,
+          "MSRP": 214.3
+        },
+        {
+          "productCode": "S10_1678",
+          "productName": "1969 Harley Davidson Ultimate Chopper",
+          "productLine": "Motorcycles",
+          "quantityInStock": 7933,
+          "buyPrice": 48.81,
+          "MSRP": 95.7
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Show all orders",
+      "correct_sql": "SELECT * FROM orders",
+      "generated_sql": "SELECT \n    orders.\"orderNumber\", \n    orders.\"orderDate\", \n    orders.\"requiredDate\", \n    orders.\"shippedDate\", \n    orders.\"status\", \n    customers.\"customerNumber\", \n    customers.\"customerName\", \n    customers.\"contactLastName\", \n    customers.\"contactFirstName\" \nFROM \n    orders \nJOIN \n    customers ON orders.\"customerNumber\" = customers.\"customerNumber\" \nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.3333,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT \n    orders.\"orderNumber\", \n    orders.\"orderDate\", \n    orders.\"requiredDate\", \n    orders.\"shippedDate\", \n    orders.\"status\", \n    customers.\"customerNumber\", \n    customers.\"customerName\", \n    customers.\"contactLastName\", \n    customers.\"contactFirstName\" \nFROM \n    orders \nJOIN \n    customers ON orders.\"customerNumber\" = customers.\"customerNumber\" \nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "orderNumber": 10100,
+          "orderDate": "2003-01-06",
+          "requiredDate": "2003-01-13",
+          "shippedDate": "2003-01-10",
+          "status": "Shipped",
+          "customerNumber": 103,
+          "customerName": "Atelier graphique",
+          "contactLastName": "Schmitt",
+          "contactFirstName": "Carine"
+        },
+        {
+          "orderNumber": 10101,
+          "orderDate": "2003-01-09",
+          "requiredDate": "2003-01-18",
+          "shippedDate": "2003-01-11",
+          "status": "Shipped",
+          "customerNumber": 112,
+          "customerName": "Signal Gift Stores",
+          "contactLastName": "King",
+          "contactFirstName": "Jean"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "List all payments",
+      "correct_sql": "SELECT * FROM payments",
+      "generated_sql": "SELECT \n    payments.\"customerNumber\", \n    payments.\"checkNumber\", \n    payments.\"paymentDate\", \n    payments.\"amount\", \n    customers.\"customerName\", \n    customers.\"contactLastName\", \n    customers.\"contactFirstName\" \nFROM \n    payments \nJOIN \n    customers ON payments.\"customerNumber\" = customers.\"customerNumber\" \nORDER BY \n    payments.\"paymentDate\" DESC \nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.3333,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT \n    payments.\"customerNumber\", \n    payments.\"checkNumber\", \n    payments.\"paymentDate\", \n    payments.\"amount\", \n    customers.\"customerName\", \n    customers.\"contactLastName\", \n    customers.\"contactFirstName\" \nFROM \n    payments \nJOIN \n    customers ON payments.\"customerNumber\" = customers.\"customerNumber\" \nORDER BY \n    payments.\"paymentDate\" DESC \nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "customerNumber": 112,
+          "checkNumber": "JM555205",
+          "paymentDate": "2004-11-05",
+          "amount": 8765.0,
+          "customerName": "Signal Gift Stores",
+          "contactLastName": "King",
+          "contactFirstName": "Jean"
+        },
+        {
+          "customerNumber": 103,
+          "checkNumber": "HQ336336",
+          "paymentDate": "2004-10-19",
+          "amount": 6066.78,
+          "customerName": "Atelier graphique",
+          "contactLastName": "Schmitt",
+          "contactFirstName": "Carine"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get product names and prices",
+      "correct_sql": "SELECT \"productName\", \"buyPrice\" FROM products",
+      "generated_sql": "SELECT \"productName\", \"buyPrice\", \"MSRP\" FROM products LIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.9,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT \"productName\", \"buyPrice\", \"MSRP\" FROM products LIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "productName": "1969 Harley Davidson Ultimate Chopper",
+          "buyPrice": 48.81,
+          "MSRP": 95.7
+        },
+        {
+          "productName": "1952 Alpine Renault 1300",
+          "buyPrice": 98.58,
+          "MSRP": 214.3
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Show product MSRP values",
+      "correct_sql": "SELECT \"MSRP\" FROM products",
+      "generated_sql": "SELECT \"productCode\", \"MSRP\" FROM products LIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.8333,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT \"productCode\", \"MSRP\" FROM products LIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "productCode": "S10_1678",
+          "MSRP": 95.7
+        },
+        {
+          "productCode": "S10_1949",
+          "MSRP": 214.3
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get orders with customer names",
+      "correct_sql": "SELECT o.*, c.\"customerName\" FROM orders o JOIN customers c ON o.\"customerNumber\" = c.\"customerNumber\"",
+      "generated_sql": "SELECT orders.\"orderNumber\", customers.\"customerName\"\nFROM orders\nJOIN customers ON orders.\"customerNumber\" = customers.\"customerNumber\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.9,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT orders.\"orderNumber\", customers.\"customerName\"\nFROM orders\nJOIN customers ON orders.\"customerNumber\" = customers.\"customerNumber\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "orderNumber": 10100,
+          "customerName": "Atelier graphique"
+        },
+        {
+          "orderNumber": 10101,
+          "customerName": "Signal Gift Stores"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get employees with office city",
+      "correct_sql": "SELECT e.*, o.\"city\" AS \"officeCity\" FROM employees e JOIN offices o ON e.\"officeCode\" = o.\"officeCode\"",
+      "generated_sql": "SELECT employees.\"employeeNumber\", employees.\"firstName\", employees.\"lastName\", offices.\"city\"\nFROM employees\nJOIN offices ON employees.\"officeCode\" = offices.\"officeCode\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.7857,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT employees.\"employeeNumber\", employees.\"firstName\", employees.\"lastName\", offices.\"city\"\nFROM employees\nJOIN offices ON employees.\"officeCode\" = offices.\"officeCode\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "employeeNumber": 1002,
+          "firstName": "Diane",
+          "lastName": "Murphy",
+          "city": "San Francisco"
+        },
+        {
+          "employeeNumber": 1056,
+          "firstName": "Mary",
+          "lastName": "Patterson",
+          "city": "San Francisco"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get payments with customer names",
+      "correct_sql": "SELECT p.*, c.\"customerName\" FROM payments p JOIN customers c ON p.\"customerNumber\" = c.\"customerNumber\"",
+      "generated_sql": "SELECT payments.\"checkNumber\", payments.\"paymentDate\", payments.\"amount\", customers.\"customerName\"\nFROM payments\nJOIN customers ON payments.\"customerNumber\" = customers.\"customerNumber\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.7857,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT payments.\"checkNumber\", payments.\"paymentDate\", payments.\"amount\", customers.\"customerName\"\nFROM payments\nJOIN customers ON payments.\"customerNumber\" = customers.\"customerNumber\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "checkNumber": "HQ336336",
+          "paymentDate": "2004-10-19",
+          "amount": 6066.78,
+          "customerName": "Atelier graphique"
+        },
+        {
+          "checkNumber": "JM555205",
+          "paymentDate": "2004-11-05",
+          "amount": 8765.0,
+          "customerName": "Signal Gift Stores"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get order details with product names",
+      "correct_sql": "SELECT od.*, pr.\"productName\" FROM orderdetails od JOIN products pr ON od.\"productCode\" = pr.\"productCode\"",
+      "generated_sql": "SELECT orders.\"orderNumber\", products.\"productName\", orderdetails.\"quantityOrdered\", orderdetails.\"priceEach\"\nFROM orderdetails\nJOIN orders ON orderdetails.\"orderNumber\" = orders.\"orderNumber\"\nJOIN products ON orderdetails.\"productCode\" = products.\"productCode\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.6857,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT orders.\"orderNumber\", products.\"productName\", orderdetails.\"quantityOrdered\", orderdetails.\"priceEach\"\nFROM orderdetails\nJOIN orders ON orderdetails.\"orderNumber\" = orders.\"orderNumber\"\nJOIN products ON orderdetails.\"productCode\" = products.\"productCode\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "orderNumber": 10100,
+          "productName": "1969 Harley Davidson Ultimate Chopper",
+          "quantityOrdered": 30,
+          "priceEach": 136.0
+        },
+        {
+          "orderNumber": 10101,
+          "productName": "1952 Alpine Renault 1300",
+          "quantityOrdered": 50,
+          "priceEach": 33.3
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get products with product line description",
+      "correct_sql": "SELECT p.*, pl.\"textDescription\" FROM products p JOIN productlines pl ON p.\"productLine\" = pl.\"productLine\"",
+      "generated_sql": "SELECT products.\"productCode\", products.\"productName\", productlines.\"textDescription\"\nFROM products\nJOIN productlines ON products.\"productLine\" = productlines.\"productLine\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.8333,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT products.\"productCode\", products.\"productName\", productlines.\"textDescription\"\nFROM products\nJOIN productlines ON products.\"productLine\" = productlines.\"productLine\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "productCode": "S10_1678",
+          "productName": "1969 Harley Davidson Ultimate Chopper",
+          "textDescription": "Two-wheel vehicles"
+        },
+        {
+          "productCode": "S10_1949",
+          "productName": "1952 Alpine Renault 1300",
+          "textDescription": "Vintage automobiles"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get customers with sales rep names",
+      "correct_sql": "SELECT c.*, e.\"firstName\" AS \"salesRepFirstName\", e.\"lastName\" AS \"salesRepLastName\" FROM customers c LEFT JOIN employees e ON c.\"salesRepEmployeeNumber\" = e.\"employeeNumber\"",
+      "generated_sql": "SELECT customers.\"customerNumber\", customers.\"customerName\", employees.\"firstName\", employees.\"lastName\"\nFROM customers\nJOIN employees ON customers.\"salesRepEmployeeNumber\" = employees.\"employeeNumber\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.9,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT customers.\"customerNumber\", customers.\"customerName\", employees.\"firstName\", employees.\"lastName\"\nFROM customers\nJOIN employees ON customers.\"salesRepEmployeeNumber\" = employees.\"employeeNumber\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "customerNumber": 103,
+          "customerName": "Atelier graphique",
+          "firstName": "Mary",
+          "lastName": "Patterson"
+        },
+        {
+          "customerNumber": 112,
+          "customerName": "Signal Gift Stores",
+          "firstName": "Mary",
+          "lastName": "Patterson"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get orders with customer city",
+      "correct_sql": "SELECT o.*, c.\"city\" AS \"customerCity\" FROM orders o JOIN customers c ON o.\"customerNumber\" = c.\"customerNumber\"",
+      "generated_sql": "SELECT orders.\"orderNumber\", customers.\"city\"\nFROM orders\nJOIN customers ON orders.\"customerNumber\" = customers.\"customerNumber\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.9,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT orders.\"orderNumber\", customers.\"city\"\nFROM orders\nJOIN customers ON orders.\"customerNumber\" = customers.\"customerNumber\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "orderNumber": 10100,
+          "city": "Nantes"
+        },
+        {
+          "orderNumber": 10101,
+          "city": "Las Vegas"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get employees and their manager",
+      "correct_sql": "SELECT e.\"employeeNumber\", e.\"firstName\", e.\"lastName\", m.\"firstName\" AS \"managerFirstName\", m.\"lastName\" AS \"managerLastName\" FROM employees e LEFT JOIN employees m ON e.\"reportsTo\" = m.\"employeeNumber\"",
+      "generated_sql": "SELECT e1.\"employeeNumber\", e1.\"firstName\", e1.\"lastName\", e2.\"employeeNumber\" AS \"reportsTo\", e2.\"firstName\" AS \"managerFirstName\", e2.\"lastName\" AS \"managerLastName\"\nFROM employees AS e1\nLEFT JOIN employees AS e2 ON e1.\"reportsTo\" = e2.\"employeeNumber\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 1.0,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT e1.\"employeeNumber\", e1.\"firstName\", e1.\"lastName\", e2.\"employeeNumber\" AS \"reportsTo\", e2.\"firstName\" AS \"managerFirstName\", e2.\"lastName\" AS \"managerLastName\"\nFROM employees AS e1\nLEFT JOIN employees AS e2 ON e1.\"reportsTo\" = e2.\"employeeNumber\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "employeeNumber": 1002,
+          "firstName": "Diane",
+          "lastName": "Murphy",
+          "reportsTo": null,
+          "managerFirstName": null,
+          "managerLastName": null
+        },
+        {
+          "employeeNumber": 1056,
+          "firstName": "Mary",
+          "lastName": "Patterson",
+          "reportsTo": null,
+          "managerFirstName": null,
+          "managerLastName": null
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Get orderdetails with product vendor",
+      "correct_sql": "SELECT od.*, p.\"productVendor\" FROM orderdetails od JOIN products p ON od.\"productCode\" = p.\"productCode\"",
+      "generated_sql": "SELECT \n    orderdetails.\"orderNumber\", \n    orderdetails.\"productCode\", \n    orderdetails.\"quantityOrdered\", \n    orderdetails.\"priceEach\", \n    products.\"productVendor\" \nFROM \n    orderdetails \nJOIN \n    orders ON orderdetails.\"orderNumber\" = orders.\"orderNumber\" \nJOIN \n    products ON orderdetails.\"productCode\" = products.\"productCode\" \nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.6857,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT \n    orderdetails.\"orderNumber\", \n    orderdetails.\"productCode\", \n    orderdetails.\"quantityOrdered\", \n    orderdetails.\"priceEach\", \n    products.\"productVendor\" \nFROM \n    orderdetails \nJOIN \n    orders ON orderdetails.\"orderNumber\" = orders.\"orderNumber\" \nJOIN \n    products ON orderdetails.\"productCode\" = products.\"productCode\" \nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "orderNumber": 10100,
+          "productCode": "S10_1678",
+          "quantityOrdered": 30,
+          "priceEach": 136.0,
+          "productVendor": "Min Lin Diecast"
+        },
+        {
+          "orderNumber": 10101,
+          "productCode": "S10_1949",
+          "quantityOrdered": 50,
+          "priceEach": 33.3,
+          "productVendor": "Classic Car Collectables"
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Employees per office",
+      "correct_sql": "SELECT \"officeCode\", COUNT(*) AS \"employeeCount\" FROM employees GROUP BY \"officeCode\"",
+      "generated_sql": "SELECT offices.\"officeCode\", offices.\"city\", COUNT(employees.\"employeeNumber\") AS \"employeeCount\"\nFROM offices\nLEFT JOIN employees ON employees.\"officeCode\" = offices.\"officeCode\"\nGROUP BY offices.\"officeCode\", offices.\"city\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.5833,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT offices.\"officeCode\", offices.\"city\", COUNT(employees.\"employeeNumber\") AS \"employeeCount\"\nFROM offices\nLEFT JOIN employees ON employees.\"officeCode\" = offices.\"officeCode\"\nGROUP BY offices.\"officeCode\", offices.\"city\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "officeCode": "2",
+          "city": "Boston",
+          "employeeCount": 0
+        },
+        {
+          "officeCode": "1",
+          "city": "San Francisco",
+          "employeeCount": 2
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    },
+    {
+      "category": "execution_accuracy_mismatch",
+      "question": "Orders per customer",
+      "correct_sql": "SELECT \"customerNumber\", COUNT(*) AS \"orderCount\" FROM orders GROUP BY \"customerNumber\"",
+      "generated_sql": "SELECT customers.\"customerNumber\", customers.\"customerName\", COUNT(orders.\"orderNumber\") AS order_count\nFROM customers\nLEFT JOIN orders ON orders.\"customerNumber\" = customers.\"customerNumber\"\nGROUP BY customers.\"customerNumber\", customers.\"customerName\"\nLIMIT 100",
+      "execution_accuracy": 0.0,
+      "schema_linking_accuracy": 0.5833,
+      "executed_successfully": "Yes",
+      "retry_needed": "No",
+      "retry_count": 0,
+      "sql_attempts": [
+        "SELECT customers.\"customerNumber\", customers.\"customerName\", COUNT(orders.\"orderNumber\") AS order_count\nFROM customers\nLEFT JOIN orders ON orders.\"customerNumber\" = customers.\"customerNumber\"\nGROUP BY customers.\"customerNumber\", customers.\"customerName\"\nLIMIT 100"
+      ],
+      "execution_error": null,
+      "validation_feedback": null,
+      "workflow_trace_summary": [
+        {
+          "node": "planner",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "sql_generator",
+          "is_valid_sql": false,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "validator",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        },
+        {
+          "node": "executor",
+          "is_valid_sql": true,
+          "execution_success": true,
+          "row_count": 2,
+          "retry_count": 0
+        },
+        {
+          "node": "summarizer",
+          "is_valid_sql": true,
+          "execution_success": null,
+          "row_count": null,
+          "retry_count": 0
+        }
+      ],
+      "sample_rows": [
+        {
+          "customerNumber": 112,
+          "customerName": "Signal Gift Stores",
+          "order_count": 1
+        },
+        {
+          "customerNumber": 103,
+          "customerName": "Atelier graphique",
+          "order_count": 1
+        }
+      ],
+      "failure_reason": "SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape)."
+    }
+  ],
+  "example_workflow_failures": []
+}

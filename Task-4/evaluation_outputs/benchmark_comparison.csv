@@ -1,0 +1,174 @@
+question,correct_sql,generated_sql,execution_accuracy,schema_linking_accuracy,executed_successfully,retry_needed,final_status,retry_count,execution_error,validation_feedback,failure_category,retry_handling_notes,workflow_nodes,execution_log_ref
+List all products,SELECT * FROM products,"SELECT ""productCode"", ""productName"", ""productLine"", ""quantityInStock"", ""buyPrice"", ""MSRP"" 
+FROM products 
+ORDER BY ""productName"" 
+LIMIT 100",0.0,0.5,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:1
+Get all customers,SELECT * FROM customers,"SELECT ""customerNumber"", ""customerName"", ""contactLastName"", ""contactFirstName"", ""phone"", ""addressLine1"", ""addressLine2"", ""city"", ""state"", ""postalCode"", ""country"", ""salesRepEmployeeNumber"", ""creditLimit"" FROM customers LIMIT 100",1.0,0.5,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:2
+Show all orders,SELECT * FROM orders,"SELECT 
+    orders.""orderNumber"", 
+    orders.""orderDate"", 
+    orders.""requiredDate"", 
+    orders.""shippedDate"", 
+    orders.""status"", 
+    customers.""customerNumber"", 
+    customers.""customerName"", 
+    customers.""contactLastName"", 
+    customers.""contactFirstName"" 
+FROM 
+    orders 
+JOIN 
+    customers ON orders.""customerNumber"" = customers.""customerNumber"" 
+LIMIT 100",0.0,0.3333,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:3
+List all employees,SELECT * FROM employees,"SELECT ""employeeNumber"", ""lastName"", ""firstName"", ""extension"", ""email"", ""officeCode"", ""reportsTo"", ""jobTitle"" 
+FROM employees 
+ORDER BY ""employeeNumber"" 
+LIMIT 100",1.0,0.5,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:4
+Get all offices,SELECT * FROM offices,"SELECT ""officeCode"", ""city"", ""phone"", ""addressLine1"", ""addressLine2"", ""state"", ""country"", ""postalCode"", ""territory"" FROM offices LIMIT 100",1.0,0.5,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:5
+Show all product lines,SELECT * FROM productlines,"SELECT ""productLine"", ""textDescription"", ""htmlDescription"", ""image"" FROM productlines LIMIT 100",1.0,0.5,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:6
+List all payments,SELECT * FROM payments,"SELECT 
+    payments.""customerNumber"", 
+    payments.""checkNumber"", 
+    payments.""paymentDate"", 
+    payments.""amount"", 
+    customers.""customerName"", 
+    customers.""contactLastName"", 
+    customers.""contactFirstName"" 
+FROM 
+    payments 
+JOIN 
+    customers ON payments.""customerNumber"" = customers.""customerNumber"" 
+ORDER BY 
+    payments.""paymentDate"" DESC 
+LIMIT 100",0.0,0.3333,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:7
+Get product names and prices,"SELECT ""productName"", ""buyPrice"" FROM products","SELECT ""productName"", ""buyPrice"", ""MSRP"" FROM products LIMIT 100",0.0,0.9,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:8
+Get customer names and cities,"SELECT ""customerName"", ""city"" FROM customers","SELECT ""customerName"", ""city"" 
+FROM customers 
+ORDER BY ""customerName"" 
+LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:9
+List employee first and last names,"SELECT ""firstName"", ""lastName"" FROM employees","SELECT ""firstName"", ""lastName"" FROM employees LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:10
+Get all order dates,"SELECT ""orderDate"" FROM orders","SELECT ""orderDate"" FROM orders LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:11
+Show product vendor list,"SELECT DISTINCT ""productVendor"" FROM products","SELECT DISTINCT ""productVendor"" FROM products LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:12
+Get all product codes,"SELECT ""productCode"" FROM products","SELECT ""productCode"" FROM products LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:13
+List all countries from offices,"SELECT DISTINCT ""country"" FROM offices","SELECT DISTINCT ""country"" FROM offices LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:14
+Show all order statuses,"SELECT DISTINCT ""status"" FROM orders","SELECT DISTINCT orders.""status"" FROM orders ORDER BY orders.""status"" LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:15
+Get all payment amounts,"SELECT ""amount"" FROM payments","SELECT ""amount"" FROM payments LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:16
+List all job titles,"SELECT DISTINCT ""jobTitle"" FROM employees","SELECT DISTINCT ""jobTitle"" FROM employees LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:17
+Get customer phone numbers,"SELECT ""phone"" FROM customers","SELECT ""phone"" FROM customers LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:18
+Show product MSRP values,"SELECT ""MSRP"" FROM products","SELECT ""productCode"", ""MSRP"" FROM products LIMIT 100",0.0,0.8333,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:19
+List order numbers,"SELECT ""orderNumber"" FROM orders","SELECT orders.""orderNumber"" 
+FROM orders 
+LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:20
+Get orders with customer names,"SELECT o.*, c.""customerName"" FROM orders o JOIN customers c ON o.""customerNumber"" = c.""customerNumber""","SELECT orders.""orderNumber"", customers.""customerName""
+FROM orders
+JOIN customers ON orders.""customerNumber"" = customers.""customerNumber""
+LIMIT 100",0.0,0.9,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:21
+Get employees with office city,"SELECT e.*, o.""city"" AS ""officeCity"" FROM employees e JOIN offices o ON e.""officeCode"" = o.""officeCode""","SELECT employees.""employeeNumber"", employees.""firstName"", employees.""lastName"", offices.""city""
+FROM employees
+JOIN offices ON employees.""officeCode"" = offices.""officeCode""
+LIMIT 100",0.0,0.7857,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:22
+Get payments with customer names,"SELECT p.*, c.""customerName"" FROM payments p JOIN customers c ON p.""customerNumber"" = c.""customerNumber""","SELECT payments.""checkNumber"", payments.""paymentDate"", payments.""amount"", customers.""customerName""
+FROM payments
+JOIN customers ON payments.""customerNumber"" = customers.""customerNumber""
+LIMIT 100",0.0,0.7857,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:23
+Get order details with product names,"SELECT od.*, pr.""productName"" FROM orderdetails od JOIN products pr ON od.""productCode"" = pr.""productCode""","SELECT orders.""orderNumber"", products.""productName"", orderdetails.""quantityOrdered"", orderdetails.""priceEach""
+FROM orderdetails
+JOIN orders ON orderdetails.""orderNumber"" = orders.""orderNumber""
+JOIN products ON orderdetails.""productCode"" = products.""productCode""
+LIMIT 100",0.0,0.6857,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:24
+Get products with product line description,"SELECT p.*, pl.""textDescription"" FROM products p JOIN productlines pl ON p.""productLine"" = pl.""productLine""","SELECT products.""productCode"", products.""productName"", productlines.""textDescription""
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+LIMIT 100",0.0,0.8333,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:25
+Get customers with sales rep names,"SELECT c.*, e.""firstName"" AS ""salesRepFirstName"", e.""lastName"" AS ""salesRepLastName"" FROM customers c LEFT JOIN employees e ON c.""salesRepEmployeeNumber"" = e.""employeeNumber""","SELECT customers.""customerNumber"", customers.""customerName"", employees.""firstName"", employees.""lastName""
+FROM customers
+JOIN employees ON customers.""salesRepEmployeeNumber"" = employees.""employeeNumber""
+LIMIT 100",0.0,0.9,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:26
+Get orders with customer city,"SELECT o.*, c.""city"" AS ""customerCity"" FROM orders o JOIN customers c ON o.""customerNumber"" = c.""customerNumber""","SELECT orders.""orderNumber"", customers.""city""
+FROM orders
+JOIN customers ON orders.""customerNumber"" = customers.""customerNumber""
+LIMIT 100",0.0,0.9,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:27
+Get employees and their manager,"SELECT e.""employeeNumber"", e.""firstName"", e.""lastName"", m.""firstName"" AS ""managerFirstName"", m.""lastName"" AS ""managerLastName"" FROM employees e LEFT JOIN employees m ON e.""reportsTo"" = m.""employeeNumber""","SELECT e1.""employeeNumber"", e1.""firstName"", e1.""lastName"", e2.""employeeNumber"" AS ""reportsTo"", e2.""firstName"" AS ""managerFirstName"", e2.""lastName"" AS ""managerLastName""
+FROM employees AS e1
+LEFT JOIN employees AS e2 ON e1.""reportsTo"" = e2.""employeeNumber""
+LIMIT 100",0.0,1.0,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:28
+Get orderdetails with product vendor,"SELECT od.*, p.""productVendor"" FROM orderdetails od JOIN products p ON od.""productCode"" = p.""productCode""","SELECT 
+    orderdetails.""orderNumber"", 
+    orderdetails.""productCode"", 
+    orderdetails.""quantityOrdered"", 
+    orderdetails.""priceEach"", 
+    products.""productVendor"" 
+FROM 
+    orderdetails 
+JOIN 
+    orders ON orderdetails.""orderNumber"" = orders.""orderNumber"" 
+JOIN 
+    products ON orderdetails.""productCode"" = products.""productCode"" 
+LIMIT 100",0.0,0.6857,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:29
+Get payments with customer country,"SELECT p.*, c.""country"" FROM payments p JOIN customers c ON p.""customerNumber"" = c.""customerNumber""","SELECT 
+    payments.""customerNumber"", 
+    payments.""checkNumber"", 
+    payments.""paymentDate"", 
+    payments.""amount"", 
+    customers.""country"" 
+FROM 
+    payments 
+JOIN 
+    customers ON payments.""customerNumber"" = customers.""customerNumber"" 
+LIMIT 100",1.0,0.7857,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:30
+Count customers per country,"SELECT ""country"", COUNT(*) AS ""customerCount"" FROM customers GROUP BY ""country""","SELECT ""country"", COUNT(*) AS ""customer_count""
+FROM customers
+GROUP BY ""country""
+LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:31
+Total payments per customer,"SELECT ""customerNumber"", SUM(""amount"") AS ""totalPayments"" FROM payments GROUP BY ""customerNumber""","SELECT customers.""customerNumber"", SUM(payments.""amount"") AS ""totalPayments""
+FROM customers
+LEFT JOIN payments ON customers.""customerNumber"" = payments.""customerNumber""
+GROUP BY customers.""customerNumber""
+LIMIT 100",1.0,0.8333,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:32
+Number of orders per status,"SELECT ""status"", COUNT(*) AS ""orderCount"" FROM orders GROUP BY ""status""","SELECT ""status"", COUNT(*) AS ""count""
+FROM orders
+GROUP BY ""status""
+LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:33
+Products per product line,"SELECT ""productLine"", COUNT(*) AS ""productCount"" FROM products GROUP BY ""productLine""","SELECT productlines.""productLine"", COUNT(products.""productCode"") AS ""productCount""
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+GROUP BY productlines.""productLine""
+LIMIT 100",1.0,0.6667,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:34
+Employees per office,"SELECT ""officeCode"", COUNT(*) AS ""employeeCount"" FROM employees GROUP BY ""officeCode""","SELECT offices.""officeCode"", offices.""city"", COUNT(employees.""employeeNumber"") AS ""employeeCount""
+FROM offices
+LEFT JOIN employees ON employees.""officeCode"" = offices.""officeCode""
+GROUP BY offices.""officeCode"", offices.""city""
+LIMIT 100",0.0,0.5833,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:35
+Total stock per product vendor,"SELECT ""productVendor"", SUM(""quantityInStock"") AS ""totalStock"" FROM products GROUP BY ""productVendor""","SELECT ""productVendor"", SUM(""quantityInStock"") AS ""totalStock""
+FROM products
+GROUP BY ""productVendor""
+LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:36
+Average buy price per product line,"SELECT ""productLine"", AVG(""buyPrice"") AS ""avgBuyPrice"" FROM products GROUP BY ""productLine""","SELECT productlines.""productLine"", AVG(products.""buyPrice"") AS averageBuyPrice
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+GROUP BY productlines.""productLine""
+LIMIT 100",1.0,0.8333,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:37
+Orders per customer,"SELECT ""customerNumber"", COUNT(*) AS ""orderCount"" FROM orders GROUP BY ""customerNumber""","SELECT customers.""customerNumber"", customers.""customerName"", COUNT(orders.""orderNumber"") AS order_count
+FROM customers
+LEFT JOIN orders ON orders.""customerNumber"" = customers.""customerNumber""
+GROUP BY customers.""customerNumber"", customers.""customerName""
+LIMIT 100",0.0,0.5833,Yes,No,Success,0,,,execution_accuracy_mismatch,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:38
+Max MSRP per product line,"SELECT ""productLine"", MAX(""MSRP"") AS ""maxMSRP"" FROM products GROUP BY ""productLine""","SELECT productlines.""productLine"", MAX(products.""MSRP"") AS maxMSRP
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+GROUP BY productlines.""productLine""
+LIMIT 100",1.0,0.8333,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:39
+Min buy price per vendor,"SELECT ""productVendor"", MIN(""buyPrice"") AS ""minBuyPrice"" FROM products GROUP BY ""productVendor""","SELECT products.""productVendor"", MIN(products.""buyPrice"") AS minBuyPrice
+FROM products
+JOIN orderdetails ON orderdetails.""productCode"" = products.""productCode""
+GROUP BY products.""productVendor""
+LIMIT 100",1.0,0.7333,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:40
+Total number of customers,"SELECT COUNT(*) AS ""totalCustomers"" FROM customers","SELECT COUNT(*) AS ""totalCustomers"" FROM customers",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:41
+Total number of products,"SELECT COUNT(*) AS ""totalProducts"" FROM products","SELECT COUNT(*) AS ""totalProducts"" FROM products",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:42
+Total revenue from payments,"SELECT SUM(""amount"") AS ""totalRevenue"" FROM payments","SELECT SUM(""amount"") AS ""totalRevenue"" FROM payments LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:43
+Average product price,"SELECT AVG(""buyPrice"") AS ""avgProductPrice"" FROM products","SELECT AVG(""buyPrice"") AS ""AverageBuyPrice"" FROM products",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:44
+Max payment amount,"SELECT MAX(""amount"") AS ""maxPayment"" FROM payments","SELECT MAX(""amount"") AS ""MaxPaymentAmount"" FROM payments",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:45
+Min payment amount,"SELECT MIN(""amount"") AS ""minPayment"" FROM payments","SELECT MIN(""amount"") AS ""MinPaymentAmount"" FROM payments",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:46
+Count total orders,"SELECT COUNT(*) AS ""totalOrders"" FROM orders","SELECT COUNT(*) AS ""totalOrders"" FROM orders",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:47
+Total quantity in stock,"SELECT SUM(""quantityInStock"") AS ""totalQuantityInStock"" FROM products","SELECT SUM(""quantityInStock"") AS ""totalQuantityInStock"" FROM products LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:48
+Average MSRP,"SELECT AVG(""MSRP"") AS ""avgMSRP"" FROM products","SELECT AVG(""MSRP"") AS average_msrp FROM products LIMIT 100",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:49
+Number of employees,"SELECT COUNT(*) AS ""totalEmployees"" FROM employees","SELECT COUNT(*) AS ""totalEmployees"" FROM employees",1.0,1.0,Yes,No,Success,0,,,success,No retry; first SQL attempt succeeded,planner -> sql_generator -> validator -> executor -> summarizer,query_execution_logs.jsonl#line:50

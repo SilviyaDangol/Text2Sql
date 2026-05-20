@@ -1,0 +1,94 @@
+category,question,correct_sql,generated_sql,execution_accuracy,schema_linking_accuracy,executed_successfully,retry_needed,retry_count,sql_attempts_count,execution_error,validation_feedback,failure_reason,workflow_nodes,retry_handling_notes
+execution_accuracy_mismatch,List all products,SELECT * FROM products,"SELECT ""productCode"", ""productName"", ""productLine"", ""quantityInStock"", ""buyPrice"", ""MSRP"" 
+FROM products 
+ORDER BY ""productName"" 
+LIMIT 100",0.0,0.5,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Show all orders,SELECT * FROM orders,"SELECT 
+    orders.""orderNumber"", 
+    orders.""orderDate"", 
+    orders.""requiredDate"", 
+    orders.""shippedDate"", 
+    orders.""status"", 
+    customers.""customerNumber"", 
+    customers.""customerName"", 
+    customers.""contactLastName"", 
+    customers.""contactFirstName"" 
+FROM 
+    orders 
+JOIN 
+    customers ON orders.""customerNumber"" = customers.""customerNumber"" 
+LIMIT 100",0.0,0.3333,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,List all payments,SELECT * FROM payments,"SELECT 
+    payments.""customerNumber"", 
+    payments.""checkNumber"", 
+    payments.""paymentDate"", 
+    payments.""amount"", 
+    customers.""customerName"", 
+    customers.""contactLastName"", 
+    customers.""contactFirstName"" 
+FROM 
+    payments 
+JOIN 
+    customers ON payments.""customerNumber"" = customers.""customerNumber"" 
+ORDER BY 
+    payments.""paymentDate"" DESC 
+LIMIT 100",0.0,0.3333,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get product names and prices,"SELECT ""productName"", ""buyPrice"" FROM products","SELECT ""productName"", ""buyPrice"", ""MSRP"" FROM products LIMIT 100",0.0,0.9,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Show product MSRP values,"SELECT ""MSRP"" FROM products","SELECT ""productCode"", ""MSRP"" FROM products LIMIT 100",0.0,0.8333,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get orders with customer names,"SELECT o.*, c.""customerName"" FROM orders o JOIN customers c ON o.""customerNumber"" = c.""customerNumber""","SELECT orders.""orderNumber"", customers.""customerName""
+FROM orders
+JOIN customers ON orders.""customerNumber"" = customers.""customerNumber""
+LIMIT 100",0.0,0.9,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get employees with office city,"SELECT e.*, o.""city"" AS ""officeCity"" FROM employees e JOIN offices o ON e.""officeCode"" = o.""officeCode""","SELECT employees.""employeeNumber"", employees.""firstName"", employees.""lastName"", offices.""city""
+FROM employees
+JOIN offices ON employees.""officeCode"" = offices.""officeCode""
+LIMIT 100",0.0,0.7857,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get payments with customer names,"SELECT p.*, c.""customerName"" FROM payments p JOIN customers c ON p.""customerNumber"" = c.""customerNumber""","SELECT payments.""checkNumber"", payments.""paymentDate"", payments.""amount"", customers.""customerName""
+FROM payments
+JOIN customers ON payments.""customerNumber"" = customers.""customerNumber""
+LIMIT 100",0.0,0.7857,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get order details with product names,"SELECT od.*, pr.""productName"" FROM orderdetails od JOIN products pr ON od.""productCode"" = pr.""productCode""","SELECT orders.""orderNumber"", products.""productName"", orderdetails.""quantityOrdered"", orderdetails.""priceEach""
+FROM orderdetails
+JOIN orders ON orderdetails.""orderNumber"" = orders.""orderNumber""
+JOIN products ON orderdetails.""productCode"" = products.""productCode""
+LIMIT 100",0.0,0.6857,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get products with product line description,"SELECT p.*, pl.""textDescription"" FROM products p JOIN productlines pl ON p.""productLine"" = pl.""productLine""","SELECT products.""productCode"", products.""productName"", productlines.""textDescription""
+FROM products
+JOIN productlines ON products.""productLine"" = productlines.""productLine""
+LIMIT 100",0.0,0.8333,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get customers with sales rep names,"SELECT c.*, e.""firstName"" AS ""salesRepFirstName"", e.""lastName"" AS ""salesRepLastName"" FROM customers c LEFT JOIN employees e ON c.""salesRepEmployeeNumber"" = e.""employeeNumber""","SELECT customers.""customerNumber"", customers.""customerName"", employees.""firstName"", employees.""lastName""
+FROM customers
+JOIN employees ON customers.""salesRepEmployeeNumber"" = employees.""employeeNumber""
+LIMIT 100",0.0,0.9,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get orders with customer city,"SELECT o.*, c.""city"" AS ""customerCity"" FROM orders o JOIN customers c ON o.""customerNumber"" = c.""customerNumber""","SELECT orders.""orderNumber"", customers.""city""
+FROM orders
+JOIN customers ON orders.""customerNumber"" = customers.""customerNumber""
+LIMIT 100",0.0,0.9,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get employees and their manager,"SELECT e.""employeeNumber"", e.""firstName"", e.""lastName"", m.""firstName"" AS ""managerFirstName"", m.""lastName"" AS ""managerLastName"" FROM employees e LEFT JOIN employees m ON e.""reportsTo"" = m.""employeeNumber""","SELECT e1.""employeeNumber"", e1.""firstName"", e1.""lastName"", e2.""employeeNumber"" AS ""reportsTo"", e2.""firstName"" AS ""managerFirstName"", e2.""lastName"" AS ""managerLastName""
+FROM employees AS e1
+LEFT JOIN employees AS e2 ON e1.""reportsTo"" = e2.""employeeNumber""
+LIMIT 100",0.0,1.0,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Get orderdetails with product vendor,"SELECT od.*, p.""productVendor"" FROM orderdetails od JOIN products p ON od.""productCode"" = p.""productCode""","SELECT 
+    orderdetails.""orderNumber"", 
+    orderdetails.""productCode"", 
+    orderdetails.""quantityOrdered"", 
+    orderdetails.""priceEach"", 
+    products.""productVendor"" 
+FROM 
+    orderdetails 
+JOIN 
+    orders ON orderdetails.""orderNumber"" = orders.""orderNumber"" 
+JOIN 
+    products ON orderdetails.""productCode"" = products.""productCode"" 
+LIMIT 100",0.0,0.6857,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Employees per office,"SELECT ""officeCode"", COUNT(*) AS ""employeeCount"" FROM employees GROUP BY ""officeCode""","SELECT offices.""officeCode"", offices.""city"", COUNT(employees.""employeeNumber"") AS ""employeeCount""
+FROM offices
+LEFT JOIN employees ON employees.""officeCode"" = offices.""officeCode""
+GROUP BY offices.""officeCode"", offices.""city""
+LIMIT 100",0.0,0.5833,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+execution_accuracy_mismatch,Orders per customer,"SELECT ""customerNumber"", COUNT(*) AS ""orderCount"" FROM orders GROUP BY ""customerNumber""","SELECT customers.""customerNumber"", customers.""customerName"", COUNT(orders.""orderNumber"") AS order_count
+FROM customers
+LEFT JOIN orders ON orders.""customerNumber"" = customers.""customerNumber""
+GROUP BY customers.""customerNumber"", customers.""customerName""
+LIMIT 100",0.0,0.5833,Yes,No,0,1,,,"SQL executed successfully but result set differs from reference SQL (extra/missing columns, different projection, or join shape).",planner -> sql_generator -> validator -> executor -> summarizer,No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
+retry_handling_note,(no pipeline retries in full run),,,,,,No,0,0,,,LangGraph routes validator/executor failures back to sql_generator until MAX_SQL_RETRIES (default 3). Validation retries skip DB execution; execution retries pass PostgreSQL error text as feedback to the generator.,validator|executor failure -> sql_generator (max 3),No retries occurred (retry_needed=No for all 50). All queries passed validation and executed on first attempt.
