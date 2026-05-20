@@ -1,0 +1,18 @@
+2026-05-20 23:14:37 | INFO     | text2sql.test | Test run: logging module smoke check
+2026-05-20 23:14:57 | INFO     | text2sql.pipeline | Pipeline start: List all product lines
+2026-05-20 23:15:02 | WARNING  | text2sql.pipeline | First execution failed: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5433 failed: FATAL:  password authentication failed for user "classicmodels"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-05-20 23:15:03 | ERROR    | text2sql.pipeline | Retry failed: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5433 failed: FATAL:  password authentication failed for user "classicmodels"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-05-20 23:30:17 | INFO     | text2sql.seed-test | List all product lines -> 7 rows
+2026-05-20 23:30:17 | INFO     | text2sql.seed-test | Top 3 products by MSRP -> 3 rows
+2026-05-20 23:30:17 | INFO     | text2sql.seed-test | Customers from France -> 12 rows
+2026-05-20 23:30:17 | INFO     | text2sql.seed-test | Orders in process -> 5 rows
+2026-05-20 23:30:17 | INFO     | text2sql.seed-test | Total payments per customer -> 5 rows
+2026-05-20 23:30:48 | INFO     | text2sql.seed-test | List all product lines -> 7 rows
+2026-05-20 23:30:48 | INFO     | text2sql.seed-test | Which customers are from France? -> 5 rows
+2026-05-20 23:30:48 | INFO     | text2sql.seed-test | Top 5 products by MSRP -> 5 rows
+2026-05-20 23:30:48 | INFO     | text2sql.seed-test | Employees reporting to 1002 -> 2 rows
+2026-05-20 23:30:48 | INFO     | text2sql.seed-test | US offices -> 3 rows

@@ -1,0 +1,46 @@
+services:
+
+  # ── PostgreSQL ──────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: classicmodels_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER:     ${POSTGRES_USER:-classicmodels}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-classicmodels}
+      POSTGRES_DB:       ${POSTGRES_DB:-classicmodels}
+    ports:
+      - "5435:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      # ← Mount your seed.sql here; it runs on first container start
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-classicmodels} -d ${POSTGRES_DB:-classicmodels}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Streamlit App ────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: text2sql_app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Override host to use the Docker service name
+      POSTGRES_HOST: db
+      DATABASE_URL: postgresql://${POSTGRES_USER:-classicmodels}:${POSTGRES_PASSWORD:-classicmodels}@db:5432/${POSTGRES_DB:-classicmodels}
+    ports:
+      - "8501:8501"
+    volumes:
+      # Persist logs outside the container
+      - ./logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pg_data:
